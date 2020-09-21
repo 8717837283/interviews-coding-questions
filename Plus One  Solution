@@ -1,0 +1,85 @@
+problem statement:
+Given a non-empty array of digits representing a non-negative integer, increment one to the integer.
+
+The digits are stored such that the most significant digit is at the head of the list, and each element in the array contains a single digit.
+
+You may assume the integer does not contain any leading zero, except the number 0 itself.
+
+ 
+
+Example 1:
+
+Input: digits = [1,2,3]
+Output: [1,2,4]
+Explanation: The array represents the integer 123.
+Example 2:
+
+Input: digits = [4,3,2,1]
+Output: [4,3,2,2]
+Explanation: The array represents the integer 4321.
+Example 3:
+
+Input: digits = [0]
+Output: [1]
+ 
+
+Constraints:
+
+1 <= digits.length <= 100
+0 <= digits[i] <= 9
+===========================================================================================
+code:
+class Solution {
+public:
+    
+    struct node
+    {
+        node *next;
+        int val;
+    };
+    vector<int> plusOne(vector<int>& digits) {
+        reverse(digits.begin(),digits.end());
+        node *head=NULL,*head1=NULL;
+        int i=0;
+        while(i<digits.size())
+        {
+            node *temp=new node();
+            temp->next=NULL;
+            temp->val=digits[i];
+            if(head==NULL)
+                head1=head=temp;
+            else
+            {
+                head1->next=temp;
+                head1=head1->next;  
+            }
+            i++;    
+        }
+      
+        digits.clear();
+        node *temp=head;
+        int div;
+        div=(1+temp->val)/10;
+        digits.push_back((1+temp->val)%10);
+        temp=temp->next;
+        while(temp!=NULL)
+        {
+            digits.push_back((temp->val+div)%10);
+            div=(temp->val+div)/10;
+            temp=temp->next;   
+        }
+        if(div==1)
+            digits.push_back(1);
+        
+        reverse(digits.begin(),digits.end());
+        return digits;
+        
+        
+    }
+};
+
+
+
+=========================================================
+output:
+this will return number after adding 1 in O(n) time complexity
