@@ -1,0 +1,90 @@
+problem statement:
+You are driving a vehicle that has capacity empty seats initially available for passengers.  The vehicle only drives east (ie. it cannot turn around and drive west.)
+
+Given a list of trips, trip[i] = [num_passengers, start_location, end_location] contains information about the i-th trip: the number of passengers that must be picked up, and the locations to pick them up and drop them off.  The locations are given as the number of kilometers due east from your vehicle's initial location.
+
+Return true if and only if it is possible to pick up and drop off all passengers for all the given trips. 
+=================================================================================
+code:
+
+class Solution {
+public:
+    bool carPooling(vector<vector<int>>& trips, int capacity) {
+        vector< pair<int ,pair<int,int>>>p;
+        map<int,int>mymap;
+        int m=0,maxcap=0;
+        
+        if(trips.size()==1)
+        {
+            if(capacity>=trips[0][0])
+                return true;
+            else 
+               return false;
+        }
+        
+        if(maxcap<=capacity)
+            return true;
+        
+        for(int i=0;i<trips.size();i++)
+        {       m=max(m,trips[i][2]);
+                maxcap=maxcap+trips[i][0];
+                p.push_back(make_pair(trips[i][1],make_pair(trips[i][0],trips[i][2])));
+                
+        }
+        
+        sort(p.begin(),p.end());
+        int sp=p[0].first,b=0;
+        mymap.insert({p[0].second.second,p[0].second.first});
+        capacity=capacity-p[0].second.first;
+       
+        if(sp!=p[1].first)
+             sp++;
+        b++;
+        while(sp<=m)
+        {   
+            if(mymap.count(sp))
+            {   
+                capacity=capacity+mymap[sp];
+                mymap[sp]=0;
+            }
+            
+           if(b<p.size()&& sp==p[b].first)
+           {
+              
+               int k=b,c=0;
+                while(k<p.size() &&sp==p[k].first)
+                {   
+                    if(capacity>=p[b].second.first)     
+                    {   cout<<"sp="<<sp<<endl; 
+                        cout<<"     "<<"sp="<<sp<<" "<<"capaciity="<<capacity<<endl; 
+                    
+                        capacity-=p[b].second.first;
+                        if(mymap.count(p[b].second.second))
+                        {
+                            mymap[p[b].second.second]=mymap[p[b].second.second]+p[b].second.first;
+                        }
+                        else
+                        {
+                            mymap[p[b].second.second]=p[b].second.first;
+                        }
+                         
+                      
+                        c++;                   
+                    }
+                    else
+                        return false;
+                    b++;
+                    k++;
+                }
+               if(c>1)
+                sp=p[k-1].first;
+                
+           }
+            sp++; 
+         
+        }
+        return true;  
+    }
+};
+============================================================================
+output:
