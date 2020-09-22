@@ -88,3 +88,7 @@ public:
 };
 ============================================================================
 output:
+idea to solve this problem is simple,start from lowest "start position" and go forward and if we have reached that point from where we have to pick up
+then check capacity if  have capacity then pick the passengers otherwise return false;
+
+time complexity of this problem is O(nlogn()) for sorting from start position.
