@@ -1,0 +1,42 @@
+void extraLongFactorials(int n) {
+    vector<int>fact,temp;
+    fact.push_back(1);
+    for(int j=2;j<=n;j++)
+    {   int k=0,h=0,g=j;
+        while(g>0)
+        {  int rem=g%10;  
+           int mc=0;
+           int  mr=0;
+            for(int i=0;i<fact.size();i++)
+            {
+                if(k==0)
+                {
+                    temp.push_back((rem*fact[i]+mc)%10);
+                    mc=(rem*fact[i]+mc)/10;
+                }
+                else
+                {   if(h==temp.size() )
+                        temp.push_back(0);
+                        int a=temp[h]+fact[i]*rem+mc;
+                    temp[h]=(temp[h]+fact[i]*rem+mc)%10;
+                    mc=(a)/10;
+
+                }
+                h++;
+
+            } 
+            if(mc!=0)
+                    temp.push_back(mc);
+            g=g/10;
+            h=k+1;
+            k++;
+        }
+
+            fact.erase(fact.begin(),fact.end());
+            for(int i=0;i<temp.size();i++)
+                fact.push_back(temp[i]);      
+            temp.erase(temp.begin(),temp.end());
+    }
+       for(int i=fact.size()-1;i>=0;i--)
+               cout<<fact[i];
+}
