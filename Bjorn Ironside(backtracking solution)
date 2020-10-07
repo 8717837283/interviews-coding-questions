@@ -1,0 +1,65 @@
+Bjorn Ironside, son of Ragnar Ladbrok, wants to join his father in riding through the English country. However,
+Ragnar will only allow Bjorn to accompany him if he is able to prove his worth by solving the following problem.
+
+Given a two-dimensional matrix of size N*N consisting of characters '.' and '#'. Bjorn has to find the number
+of ways to choose N '#'s such that each '#' must be from a different row and different column.
+
+ 
+
+Example 1:
+
+Input: N = 3
+mat = {{'#', '#', '.'},
+       {'.', '#', '#'},
+       {'#', '#', '#'}}
+Output: 3
+Explanation: 
+1st way : (1, 1), (2, 2), (3, 3)
+2nd way : (1, 2), (2, 3), (3, 1)
+3rd way : (1, 1), (2, 3), (3, 2)
+
+Example 2:
+
+Input: N = 2
+mat = {{'#', '#'}, 
+       {'#', '#'}}
+Output: 2
+Explanation: 
+1st way : (1, 1), (2, 2)
+2nd way : (1, 2), (2, 1) 
+ 
+
+
+Your Task:  
+You don't need to read input or print anything. Complete the function numberOfWays() which takes N and
+the two dimensional character array mat[][] as input parameters and returns the number of ways to select N '#'s.
+Since the answer can be very large, return the answer modulo pow(10,9)+7
+====================================================================================
+bactraking code:
+void dfs(int n,vector<vector<char>>mat,vector<int>column,int i)
+	{
+	    if(i==n)
+	    {
+	        ans++;
+	        return;
+	    }
+	    for(int j=0;j<mat[0].size();j++)
+	    {
+	        if(mat[i][j]=='#')
+	        {
+	            if(column[j]!=1)
+	            {
+	                column[j]=1;
+	                dfs(n,mat,column,i+1);
+	                column[j]=0;
+	            }
+	        }
+	    }
+	}
+	int numberOfWays(int n, vector<vector<char>> &mat)
+	{   vector<int>column(n,0);
+		dfs(n,mat,column,0);
+		return (ans%(1000000007));
+	}
+ =============================================================
+ complexity O(n2)
